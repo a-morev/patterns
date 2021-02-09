@@ -17,9 +17,9 @@ def contact_view(request):
         title = data['title']
         text = data['text']
         email = data['email']
-        print(f'Нам пришло сообщение от {email} с темой {title} и текстом {text}')
+        print(f'Пришло сообщение от {email} с темой {title} и текстом {text}')
         with open(f'messages/message_{now.strftime("%d%m%Y")}_{now.strftime("%H.%M.%S")}.txt', 'w') as message_file:
-            message_file.write(f'Нам пришло сообщение от {email} с темой \n {title} \n и текстом \n {text}')
+            message_file.write(f'Пришло сообщение от {email} с темой \n {title} \n и текстом \n {text}')
         return '200 OK', render_('contacts.html')
     else:
         return '200 OK', render_('contacts.html')
