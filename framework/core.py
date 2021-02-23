@@ -57,10 +57,11 @@ class Application:
         query_string = env['QUERY_STRING']
         request_params = self.parse_input_data(query_string)
 
+        request = {}
         if path in self.urlpatterns:
             # получаем view по url
             view = self.urlpatterns[path]
-            request = {}
+
             # добавляем параметры запросов
             request['method'] = method
             request['data'] = data
@@ -75,9 +76,10 @@ class Application:
             # возвращаем тело ответа
             return [text.encode('utf-8')]
         else:
-            # Если url нет в urlpatterns - то страница не найдена
-            start_response('404 NOT FOUND', [('Content-Type', 'text/html')])
-            return [b'404 UNKNOWN COLOR!']
+            view = self.urlpatterns['/not_found/']
+            code, text = view(request)
+            start_response(code, [('Content-Type', 'text/html')])
+            return [text.encode('utf-8')]
 
 
 class DebugApplication(Application):
